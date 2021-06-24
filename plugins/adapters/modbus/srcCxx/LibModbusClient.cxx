@@ -45,6 +45,8 @@ void LibModbusClient::connect(const std::string& ip, unsigned int port)
                 + "> " + modbus_strerror(errno));
         throw std::runtime_error(error);
     }
+    std::string ip_address_ = ip;
+    unsigned int port_number_ = port;
 
     // If the connection was successfull, connect to it
     if (modbus_connect(modbus_connection()) != 0) {
@@ -79,6 +81,7 @@ int LibModbusClient::write_registers(
         const std::vector<uint16_t>& registers)
 {
     int written_registers = 0;
+    std::lock_guard<std::mutex> guard(connection_mutex_);
 
     // Differentiate when writing 1 ore more registers
     if (register_count == 1) {
@@ -108,6 +111,8 @@ int LibModbusClient::read_registers(
 {
     int read_registers = 0;
     auto registers_data = reinterpret_cast<uint16_t *>(registers.data());
+    std::lock_guard<std::mutex> guard(connection_mutex_);
+
     // Differentiate when reading input registers or holding registers
     if (read_input_registers) {
         read_registers = modbus_read_input_registers(
@@ -135,6 +140,8 @@ int LibModbusClient::write_coils(
         const std::vector<uint8_t>& values)
 {
     int written_registers = 0;
+    std::lock_guard<std::mutex> guard(connection_mutex_);
+
     // Differentiate when reading 1 or more coils
     if (register_count == 1) {
         written_registers = modbus_write_bit(
@@ -162,6 +169,7 @@ int LibModbusClient::read_coils(
         bool read_discrete_inputs)
 {
     int read_registers = 0;
+    std::lock_guard<std::mutex> guard(connection_mutex_);
 
     // Differentiate when reading discrete inputs or coils
     if (read_discrete_inputs) {
@@ -182,4 +190,15 @@ int LibModbusClient::read_coils(
         throw std::runtime_error("Error reading coils: " + modbus_error);
     }
     return read_registers;
+}
+
+void LibModbusClient::set_response_timeout(uint32_t sec, uint32_t usec) {
+    if (modbus_set_response_timeout(modbus_connection(), sec, usec) != 0) {
+        std::string error(
+                "Error setting response timeout " + std::to_string(sec)
+                + "secs, " + std::to_string(usec) + "usecs, to Modbus server <"
+                + ip_address_ + ":" + std::to_string(port_number_) + "> "
+                + modbus_strerror(errno));
+        throw std::runtime_error(error);
+    }
 }
