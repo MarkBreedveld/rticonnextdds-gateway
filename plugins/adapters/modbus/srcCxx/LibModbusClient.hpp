@@ -60,7 +60,8 @@ public:
      *
      * @see disconnect
      */
-    void connect(const std::string& ip, unsigned int port);
+    void connect(const std::string &ip, unsigned int port);
+    void Change_SlaveAddress(int slaveAddress);
 
 
     /**

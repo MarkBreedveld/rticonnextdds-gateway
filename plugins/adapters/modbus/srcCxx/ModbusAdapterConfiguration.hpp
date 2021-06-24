@@ -236,6 +236,10 @@ public:
     {
         return array_elements_;
     }
+    inline int const slave_address() const
+    {
+        return slave_Address_;
+    }
 
 private:
     // private functions
@@ -276,7 +280,7 @@ private:
     float data_factor_;
     float data_offset_;
     std::string value_;
-
+    int slave_Address_;
     // Number of array elements, 0 means that this is not an array.
     // For example an array of 2 int32 will have:
     // array_elements_ = 2;

@@ -967,6 +967,14 @@ void ModbusAdapterConfiguration::parse_json_config_string(
                 }
 
                 mace.value_ = string_node->u.string.ptr;
+            } else if (element_name == "serverAddress"){
+                json_value *number_node = node_object->u.object.values[j].value;
+                if (number_node->type != json_integer) {
+                    throw std::runtime_error(
+                            "Error in the JSON configuration "
+                            "value of <serverAddress>.");
+                }
+                mace.slave_Address_ = number_node->u.integer;
             } else {
                 std::string error(
                         "Error in the JSON configuration. Unsupported "

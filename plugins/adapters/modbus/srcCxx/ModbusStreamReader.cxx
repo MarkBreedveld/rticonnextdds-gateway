@@ -242,6 +242,7 @@ void ModbusStreamReader::read_data_from_modbus()
                 // the interal_instance_
                 continue;
             }
+           
         }
 
         if (float_vector.size() == 1) {

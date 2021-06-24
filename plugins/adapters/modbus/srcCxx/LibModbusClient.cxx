@@ -41,8 +41,7 @@ void LibModbusClient::connect(const std::string& ip, unsigned int port)
     // Try to open a new TCP connection to the Modbus device
     modbus_connection_ = modbus_new_tcp(ip.c_str(), (int) port);
     if (modbus_connection_ == nullptr) {
-        std::string error(
-                "Error initializing Modbus <" + ip + ":" + std::to_string(port)
+        std::string error("Error initializing Modbus <" + ip + ":" + std::to_string(port)
                 + "> " + modbus_strerror(errno));
         throw std::runtime_error(error);
     }
@@ -52,6 +51,14 @@ void LibModbusClient::connect(const std::string& ip, unsigned int port)
         std::string error(
                 "Error connecting to Modbus server <" + ip + ":"
                 + std::to_string(port) + "> " + modbus_strerror(errno));
+        throw std::runtime_error(error);
+    }
+}
+
+void LibModbusClient::Change_SlaveAddress(int slaveAddress)
+{
+    if(modbus_set_slave(modbus_connection(), slaveAddress) != 0) {
+        const std::string error =("Error settings slave id to " + std::to_string(slaveAddress));
         throw std::runtime_error(error);
     }
 }
