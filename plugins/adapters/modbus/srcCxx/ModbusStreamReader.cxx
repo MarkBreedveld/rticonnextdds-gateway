@@ -261,6 +261,8 @@ void ModbusStreamReader::read_data_from_modbus()
             // when checking type_consistency() we ensure that the number of
             // elements won't be higher than mace.array_elements(). Therefore
             // float_vector.size() can be used safely.
+        }else {
+            std::cerr << "nothing has been read" << std::endl;
         }
         // in case of the size == 0, do nothing because nothing has been read
     }
@@ -291,7 +293,7 @@ void ModbusStreamReader::read(
 
     // copy internal instance into the samples
     std::unique_ptr<DynamicData> sample(new DynamicData(*cached_data_));
-
+    std::cerr << "reading sample" << std::endl;
     samples[0] = sample.release();
 
     return;

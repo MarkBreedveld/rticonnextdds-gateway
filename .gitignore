@@ -2,3 +2,10 @@ build
 install
 .vscode
 compile_commands.json
+/plugins/adapters/modbus/.vs/modbus/v16/.suo
+/plugins/adapters/modbus/.vs/modbus/v16/Browse.VC.db
+/plugins/adapters/modbus/.vs/modbus/v16/Browse.VC.db-shm
+/plugins/adapters/modbus/.vs/modbus/v16/Browse.VC.db-wal
+/plugins/adapters/modbus/.vs/ProjectSettings.json
+/plugins/adapters/modbus/.vs/slnx.sqlite
+/plugins/adapters/modbus/srcCxx/powertag_breaker_input.json
