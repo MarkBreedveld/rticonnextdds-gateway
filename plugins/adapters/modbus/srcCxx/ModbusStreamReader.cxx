@@ -128,7 +128,15 @@ void ModbusStreamReader::read_data_from_modbus()
                         .kind();
         TypeKind element_kind = member_kind;
         std::vector<long double> float_vector;
-
+        try{
+            if(mace.slave_address() != -1) {
+                connection_.Change_SlaveAddress(mace.slave_address());
+            }
+        } catch (const std::exception &ex) {
+            std::cerr << ex.what() << std::endl;
+            // if the value is not correct, we don't store it in
+            // the cached_data_
+        }
         // if this is an array or a sequence we should extract the kind of the
         // internal elements
         if (member_kind == TypeKind::ARRAY_TYPE) {

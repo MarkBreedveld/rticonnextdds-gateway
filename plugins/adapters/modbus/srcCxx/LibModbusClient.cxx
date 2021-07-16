@@ -129,7 +129,7 @@ int LibModbusClient::read_registers(
     }
     if (read_registers < 1) {
         std::string modbus_error(modbus_strerror(errno));
-        throw std::runtime_error("Error reading registers: " + modbus_error);
+        throw std::runtime_error("Error reading registers: " + modbus_error + std::to_string(errno));
     }
     return read_registers;
 }

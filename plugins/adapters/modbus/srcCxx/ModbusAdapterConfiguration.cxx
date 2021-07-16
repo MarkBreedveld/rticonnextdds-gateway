@@ -711,6 +711,7 @@ void ModbusAdapterConfiguration::parse_json_config_string(
         // create a ModbusAdapterConfigurationElement and fill it out with
         // the information in the JSON
         ModbusAdapterConfigurationElement mace;
+        mace.slave_Address_ = -1;
         size_t object_length = node_object->u.object.length;
         for (size_t j = 0; j < object_length; j++) {
             std::string element_name(node_object->u.object.values[j].name);
